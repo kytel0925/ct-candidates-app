@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('todolist', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->boolean('state');
+            $table->text('description');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('is_completed')->default(0);
+            $table->timestamp('ends_at');
+            $table->integer('order')->default(0);
             $table->timestamps();
+            $table->index(['user_id', 'is_completed', 'order']);
         });
     }
 
