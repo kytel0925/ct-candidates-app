@@ -451,3 +451,10 @@ input[type="checkbox"] {
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item {
   display: flex !important
 }
+
+
+/*Todo completado*/
+
+.complete {
+  text-decoration: line-through;
+}

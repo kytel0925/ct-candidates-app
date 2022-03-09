@@ -2,7 +2,7 @@ import React, { useEffect, useReducer } from "react";
 
 import "./App.css";
 import { useForm } from "./hooks/useForm";
-import { todoReducer } from "./todoReducer";
+import { todoReducer } from "./reducers/todoReducer";
 
 //Estado inicial
 const init = () => {
@@ -10,6 +10,54 @@ const init = () => {
 };
 
 function App() {
+    const [todos, dispatch] = useReducer(todoReducer, [], init);
+    const [{ description }, handleInputChange, reset] = useForm({
+        description: "",
+    });
+
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (description.trim().length <= 1) {
+            return;
+        }
+
+        const newTodo = {
+            id: new Date().getTime(),
+            desc: description,
+            done: false,
+        };
+
+        const action = {
+            type: "add",
+            payload: newTodo,
+        };
+
+        dispatch(action);
+        reset();
+    };
+
+    const handleDelete = (todoId) => {
+        const action = {
+            type: "delete",
+            payload: todoId,
+        };
+
+        dispatch(action);
+    };
+
+    const handleCompleteTodo = (todoId) => {
+        const action = {
+            type: "toggle",
+            payload: todoId,
+        };
+        dispatch(action);
+    };
+
     return (
         <div className="page-content page-container" id="page-content">
             <div className="padding">
@@ -20,35 +68,58 @@ function App() {
                                 <h4 className="card-title">
                                     Funiber Todo List
                                 </h4>
-                                <div className="add-items d-flex">
-                                    {" "}
-                                    <input
-                                        type="text"
-                                        className="form-control todo-list-input"
-                                        placeholder="Que vas hacer hoy?"
-                                    />{" "}
-                                    <button className="add btn btn-primary font-weight-bold todo-list-add-btn">
-                                        Add
-                                    </button>{" "}
-                                </div>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="add-items d-flex">
+                                        <input
+                                            type="text"
+                                            name="description"
+                                            className="form-control todo-list-input"
+                                            placeholder="Que vas hacer hoy?"
+                                            autoComplete="off"
+                                            value={description}
+                                            onChange={handleInputChange}
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="add btn btn-primary font-weight-bold todo-list-add-btn"
+                                        >
+                                            Agregar todo
+                                        </button>
+                                    </div>
+                                </form>
                                 <div className="list-wrapper">
                                     <ul className="d-flex flex-column-reverse todo-list">
-                                        <li>
-                                            <div className="form-check">
-                                                {" "}
-                                                <label className="form-check-label">
-                                                    {" "}
-                                                    <input
-                                                        className="checkbox"
-                                                        type="checkbox"
-                                                    />{" "}
-                                                    For what reason would it be
-                                                    advisable.{" "}
-                                                    <i className="input-helper"></i>
-                                                </label>{" "}
-                                            </div>{" "}
-                                            <i className="remove mdi mdi-close-circle-outline"></i>
-                                        </li>
+                                        {todos.map((todo) => (
+                                            <li key={todo.id}>
+                                                <div className="form-check">
+                                                    <label
+                                                        onClick={() =>
+                                                            handleCompleteTodo(
+                                                                todo.id
+                                                            )
+                                                        }
+                                                        className={
+                                                            todo.done
+                                                                ? "complete checkbox form-check-label"
+                                                                : "form-check-label"
+                                                        }
+                                                    >
+                                                        <input
+                                                            className="checkbox"
+                                                            type="checkbox"
+                                                            checked={
+                                                                todo.done
+                                                                    ? true
+                                                                    : false
+                                                            }
+                                                        />
+                                                        {todo.desc}
+                                                        <i className="input-helper"></i>
+                                                    </label>
+                                                </div>
+                                                <i className="remove mdi mdi-close-circle-outline"></i>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
