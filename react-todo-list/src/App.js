@@ -1,5 +1,13 @@
-import logo from "./logo.svg";
+import React, { useEffect, useReducer } from "react";
+
 import "./App.css";
+import { useForm } from "../../hooks/useForm";
+import { todoReducer } from "./todoReducer";
+
+//Estado inicial
+const init = () => {
+    return JSON.parse(localStorage.getItem("todos")) || [];
+};
 
 function App() {
     return (
@@ -10,14 +18,14 @@ function App() {
                         <div className="card px-3">
                             <div className="card-body">
                                 <h4 className="card-title">
-                                    Awesome Todo list
+                                    Funiber Todo List
                                 </h4>
                                 <div className="add-items d-flex">
                                     {" "}
                                     <input
                                         type="text"
                                         className="form-control todo-list-input"
-                                        placeholder="What do you need to do today?"
+                                        placeholder="Que vas hacer hoy?"
                                     />{" "}
                                     <button className="add btn btn-primary font-weight-bold todo-list-add-btn">
                                         Add
@@ -36,84 +44,6 @@ function App() {
                                                     />{" "}
                                                     For what reason would it be
                                                     advisable.{" "}
-                                                    <i className="input-helper"></i>
-                                                </label>{" "}
-                                            </div>{" "}
-                                            <i className="remove mdi mdi-close-circle-outline"></i>
-                                        </li>
-                                        <li className="completed">
-                                            <div className="form-check">
-                                                {" "}
-                                                <label className="form-check-label">
-                                                    {" "}
-                                                    <input
-                                                        className="checkbox"
-                                                        type="checkbox"
-                                                    />{" "}
-                                                    For what reason would it be
-                                                    advisable for me to think.{" "}
-                                                    <i className="input-helper"></i>
-                                                </label>{" "}
-                                            </div>{" "}
-                                            <i className="remove mdi mdi-close-circle-outline"></i>
-                                        </li>
-                                        <li>
-                                            <div className="form-check">
-                                                {" "}
-                                                <label className="form-check-label">
-                                                    {" "}
-                                                    <input
-                                                        className="checkbox"
-                                                        type="checkbox"
-                                                    />{" "}
-                                                    it be advisable for me to
-                                                    think about business
-                                                    content?{" "}
-                                                    <i className="input-helper"></i>
-                                                </label>{" "}
-                                            </div>{" "}
-                                            <i className="remove mdi mdi-close-circle-outline"></i>
-                                        </li>
-                                        <li>
-                                            <div className="form-check">
-                                                {" "}
-                                                <label className="form-check-label">
-                                                    {" "}
-                                                    <input
-                                                        className="checkbox"
-                                                        type="checkbox"
-                                                    />{" "}
-                                                    Print Statements all{" "}
-                                                    <i className="input-helper"></i>
-                                                </label>{" "}
-                                            </div>{" "}
-                                            <i className="remove mdi mdi-close-circle-outline"></i>
-                                        </li>
-                                        <li className="completed">
-                                            <div className="form-check">
-                                                {" "}
-                                                <label className="form-check-label">
-                                                    {" "}
-                                                    <input
-                                                        className="checkbox"
-                                                        type="checkbox"
-                                                    />{" "}
-                                                    Call Rampbo{" "}
-                                                    <i className="input-helper"></i>
-                                                </label>{" "}
-                                            </div>{" "}
-                                            <i className="remove mdi mdi-close-circle-outline"></i>
-                                        </li>
-                                        <li>
-                                            <div className="form-check">
-                                                {" "}
-                                                <label className="form-check-label">
-                                                    {" "}
-                                                    <input
-                                                        className="checkbox"
-                                                        type="checkbox"
-                                                    />{" "}
-                                                    Print bills{" "}
                                                     <i className="input-helper"></i>
                                                 </label>{" "}
                                             </div>{" "}
