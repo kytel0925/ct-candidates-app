@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TasksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::prefix('/tasks')->group(function(){
+    Route::get('index', [TasksController::class, 'index']);
+    Route::post('store', [TasksController::class, 'create']);
+    Route::put('update', [TasksController::class, 'update']);
+    Route::put('change-status/{id}', [TasksController::class, 'changeStatus']);
+    Route::delete('delete/{id}', [TasksController::class, 'destroy']);
 });
